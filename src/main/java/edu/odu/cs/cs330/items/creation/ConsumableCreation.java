@@ -1,6 +1,7 @@
 package edu.odu.cs.cs330.items.creation;
 
 import edu.odu.cs.cs330.items.Item;
+import edu.odu.cs.cs330.items.Armour;
 import edu.odu.cs.cs330.items.Consumable;
 
 
@@ -21,15 +22,13 @@ public class ConsumableCreation implements ItemCreationStrategy
     @Override
     public Item fromDefaults()
     {
-        // Maybe call a Default Constructor...
-        return null;
+        return new Consumable();
     }
 
     @Override
     public int requiredNumberOfValues()
     {
-        // What is the correct return value?
-        return -1;
+        return 3;
     }
 
     @SuppressWarnings({
@@ -39,8 +38,16 @@ public class ConsumableCreation implements ItemCreationStrategy
     @Override
     public Item fromTokens(final String... tokens)
     {
-        // Maybe call a Constructor that accepts multiple arguments...
-        return new Consumable();
+        
+        String name = tokens[0];
+        String effect = tokens[1];
+        int numberOfUses = Integer.parseInt(tokens[2]);
+
+        return new Consumable(
+            name,
+            effect,
+            numberOfUses
+        );
     }
 
     @SuppressWarnings({
@@ -51,13 +58,17 @@ public class ConsumableCreation implements ItemCreationStrategy
     @Override
     public Item fromExisting(final Item original)
     {
+
         if (!(original instanceof Consumable)) {
             return null;
         }
 
-        Consumable theOriginal = (Consumable) original;
+        Consumable src = (Consumable) original;
 
-        // Maybe call a Constructor that accepts multiple arguments...
-        return new Consumable();
+        return new Consumable(
+            src.getName(),
+            src.getEffect(),
+            src.getNumberOfUses()
+        );
     }
 }
